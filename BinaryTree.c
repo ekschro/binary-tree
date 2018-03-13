@@ -9,11 +9,31 @@ typedef struct node_t {
   struct node_t *right_child;
 } node_t;
 
+typedef struct list_t {
+  int min;
+  int max;
+  struct list_t *prev;
+} list_t;
+
 void freeTree(node_t *l) {
   if (l != 0) {
     freeTree(l->left_child);
     freeTree(l->right_child);
     free(l);
+  }
+}
+
+void freeList(list_t *l) {
+  if (l != 0) {
+    freeList(l->prev);
+    free(l);
+  }
+}
+
+void printList(list_t *l) {
+  if (l != 0) {
+    printList(l->prev);
+    printf("%d %d\n", l->min, l->max);
   }
 }
 
@@ -71,21 +91,91 @@ void treeInsert(node_t **t, int n) {
   }
 }
 
-int main(void) {
+void addToList(list_t **l, int min, int max) {
+  list_t *new = malloc(sizeof(list_t));
+
+  new->min = min;
+  new->max = max;
+  new->prev = *l;
+  *l = new;
+}
+
+int treeReportRange(node_t *r, int min, int max) {
+  int i = -1;
+  int left = -1;
+  int right = -1;
+
+  if (r != 0) {
+    if (min <= r->value)
+      left = treeReportRange(r->left_child, min, max);
+    if (r->value <= max)
+      right = treeReportRange(r->right_child, min, max);
+
+    if (left > -1 && right > -1) {
+      i = right^left;
+    }
+    else if (left > -1){
+      i = left;
+    }
+    else if (right > -1) {
+      i = right;
+    }
+
+    if (min <= r->value && r->value <= max) {
+        if ((r->value%2) == 0) {
+          if (i != -1) {
+            i = i^0;
+          }
+          else {
+            i = 0;
+          }
+        }
+        else {
+          if (i != -1) {
+            i = i^1;
+          }
+          else {
+            i = 1;
+          }
+        }
+    }
+  }
+
+  return i;
+}
+
+int main(int argc,char *argv[]) {
   node_t *root = 0;
   node_t **tree = &root;
 
-  int input;
+  list_t *last = 0;
+  list_t **head = &last;
 
-  while (input != -1) {
-    scanf("%d",&input);
-    treeInsert(tree,input);
+  FILE *data;
+  FILE *ranges;
+  char *fileLoc;
+
+  int inputData;
+  int minMax[2];
+
+  data = fopen(argv[1],"r");
+  ranges = fopen(argv[2],"r");
+
+  while (fscanf(data,"%d",&inputData) != EOF) {
+    treeInsert(tree,inputData);
   }
 
-  node_t *p = root;
-  printTree(p);
+  while (fscanf(ranges,"%d %d",&minMax[0],&minMax[1]) != EOF) {
+    addToList(head,minMax[0],minMax[1]);
+  }
 
-  freeTree(*tree);
+  //printTree(root);
+  //printList(last);
+
+  freeTree(root);
+  freeList(last);
+  fclose(data);
+  fclose(ranges);
 
   return 0;
 }
