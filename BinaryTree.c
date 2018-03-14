@@ -2,19 +2,13 @@
 #include <stdlib.h>
 
 typedef struct node_t {
-  int value;
-  char *place;
+  long long value;
   struct node_t *parent;
   struct node_t *left_child;
   struct node_t *right_child;
 } node_t;
 
-typedef struct list_t {
-  int min;
-  int max;
-  struct list_t *prev;
-} list_t;
-
+// Frees all allocated memory used for the created tree.
 void freeTree(node_t *l) {
   if (l != 0) {
     freeTree(l->left_child);
@@ -23,29 +17,16 @@ void freeTree(node_t *l) {
   }
 }
 
-void freeList(list_t *l) {
-  if (l != 0) {
-    freeList(l->prev);
-    free(l);
-  }
-}
-
-void printList(list_t *l) {
-  if (l != 0) {
-    printList(l->prev);
-    printf("%d %d\n", l->min, l->max);
-  }
-}
-
+// Prints tree, this was used for testing reasons.
 void printTree(node_t *l) {
-  int d = 0;
+  long long d = 0;
   if (l != 0) {
     printTree(l->left_child);
     printTree(l->right_child);
     if (l->parent != 0) {
       d = (l->parent)->value;
     }
-    printf("val = %d, parent = %d, %s\n", l->value, d,l->place);
+    printf("val = %lli, parent = %lli\n", l->value, d);
   }
 }
 
@@ -66,7 +47,8 @@ node_t *locateParent(node_t **t, node_t *z) {
   return y;
 }
 
-void treeInsert(node_t **t, int n) {
+// Inserts a new node into binary tree.
+void btreeInsert(node_t **t, long long n) {
   node_t *z = malloc(sizeof(node_t));
   node_t *y;
 
@@ -78,38 +60,27 @@ void treeInsert(node_t **t, int n) {
   z->right_child = 0;
 
   if (y == 0) {
-    z->place = "root";
     *t = z;
   }
   else if (z->value < y->value) {
-    z->place = "left";
     y->left_child = z;
   }
   else {
-    z->place = "right";
     y->right_child = z;
   }
 }
 
-void addToList(list_t **l, int min, int max) {
-  list_t *new = malloc(sizeof(list_t));
-
-  new->min = min;
-  new->max = max;
-  new->prev = *l;
-  *l = new;
-}
-
-int treeReportRange(node_t *r, int min, int max) {
+//
+int btreeEvenSumRange(node_t *r, long long min, long long max) {
   int i = -1;
   int left = -1;
   int right = -1;
 
   if (r != 0) {
     if (min <= r->value)
-      left = treeReportRange(r->left_child, min, max);
+      left = btreeEvenSumRange(r->left_child, min, max);
     if (r->value <= max)
-      right = treeReportRange(r->right_child, min, max);
+      right = btreeEvenSumRange(r->right_child, min, max);
 
     if (left > -1 && right > -1) {
       i = right^left;
@@ -145,39 +116,37 @@ int treeReportRange(node_t *r, int min, int max) {
 }
 
 int main(int argc,char *argv[]) {
-  node_t *root = 0;
-  node_t **tree = &root;
+  node_t *root = 0;       // Initialize pointer to root of tree to NULL
+  node_t **tree = &root;  // Initialize tree pointer to address of root pointer
 
-  list_t *last = 0;
-  list_t **head = &last;
-
-  FILE *data;
+  FILE *data;             // Initialize FILE pointers for data and ranges
   FILE *ranges;
-  char *fileLoc;
 
-  int inputData;
-  int minMax[2];
+  long long inputData;    // Temporary variables for reading data and ranges
+  long long minMax[2];
 
-  int evenOdd = 0;
-
+  // Open data file and ranges files at locations given by user
   data = fopen(argv[1],"r");
   ranges = fopen(argv[2],"r");
 
-  while (fscanf(data,"%d",&inputData) != EOF) {
-    treeInsert(tree,inputData);
+  // Read and insert data values into Binary tree
+  while (fscanf(data,"%lli",&inputData) != EOF) {
+    btreeInsert(tree,inputData);
   }
 
-  while (fscanf(ranges,"%d %d",&minMax[0],&minMax[1]) != EOF) {
-    if (treeReportRange(root, minMax[0], minMax[1]) == 1) {
-      printf("Range [%d,%d]: %s\n", minMax[0], minMax[1], "odd sum");
+  // Read ranges, query binary tree with range values, and then output
+  // if the range query results in an even or odd sum.
+  while (fscanf(ranges,"%lli %lli",&minMax[0],&minMax[1]) != EOF) {
+    if (btreeEvenSumRange(root, minMax[0], minMax[1]) == 1) {
+      printf("Range [%lli,%lli]: %s\n", minMax[0], minMax[1], "odd sum");
     }
     else {
-      printf("Range [%d,%d]: %s\n", minMax[0], minMax[1], "even sum");
+      printf("Range [%lli,%lli]: %s\n", minMax[0], minMax[1], "even sum");
     }
   }
 
+  // Free all allocated memory for the tree and close opened files.
   freeTree(root);
-  freeList(last);
   fclose(data);
   fclose(ranges);
 
