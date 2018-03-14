@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-
 typedef struct node_t {
   long long value;
   struct node_t *left_child;
@@ -20,9 +18,12 @@ void freeTree(node_t *l) {
 
 //Locates the appropriate parent for the given node value.
 node_t *locateParent(node_t **t, node_t *z) {
+  // Initialize pointer y to NULL and set pointer x to root node.
   node_t *y = 0;
   node_t *x = *t;
 
+  // While pointer x is not NULL navigate the tree based on the value of node z
+  // to find the appropriate parent.
   while (x != 0) {
     y = x;
     if (z->value < x->value) {
@@ -37,16 +38,22 @@ node_t *locateParent(node_t **t, node_t *z) {
 
 // Inserts a new node into binary tree.
 void btreeInsert(node_t **t, long long n) {
+  // Allocate memory for new node being inserted and initialize pointer for
+  // the appropriate parent.
   node_t *z = malloc(sizeof(node_t));
   node_t *y;
 
+  // Set value of new node z and point y to appropriate parent of z
   z->value = n;
   y = locateParent(t,z);
 
-  // z->parent = y;
+  // Initialize z left and right children to NULL
   z->left_child = 0;
   z->right_child = 0;
 
+  // If y is NULL then set new node z as root of the tree.  Otherwise, set z
+  // as the left child of y if z's value is less than y's or as the right child
+  // of y if it is greater than or equal to y's value.
   if (y == 0) {
     *t = z;
   }
