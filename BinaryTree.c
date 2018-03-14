@@ -158,6 +158,8 @@ int main(int argc,char *argv[]) {
   int inputData;
   int minMax[2];
 
+  int evenOdd = 0;
+
   data = fopen(argv[1],"r");
   ranges = fopen(argv[2],"r");
 
@@ -166,11 +168,13 @@ int main(int argc,char *argv[]) {
   }
 
   while (fscanf(ranges,"%d %d",&minMax[0],&minMax[1]) != EOF) {
-    addToList(head,minMax[0],minMax[1]);
+    if (treeReportRange(root, minMax[0], minMax[1]) == 1) {
+      printf("Range [%d,%d]: %s\n", minMax[0], minMax[1], "odd sum");
+    }
+    else {
+      printf("Range [%d,%d]: %s\n", minMax[0], minMax[1], "even sum");
+    }
   }
-
-  //printTree(root);
-  //printList(last);
 
   freeTree(root);
   freeList(last);
