@@ -1,3 +1,11 @@
+//
+//  BinaryTree.c
+//  Binary Tree
+//
+//  Created by Ericsson Schroeter on 3/11/18.
+//  Copyright © 3/11/18 Ericsson Schroeter. All rights reserved.
+//
+
 #include <stdio.h>
 #include <stdlib.h>
 
