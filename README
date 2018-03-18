@@ -1,0 +1,28 @@
+CSE 2331: Binary Tree Programming Assignment
+Dr. Diego Zaccai
+Ericsson Schroeter
+March 17, 2018
+
+                         #######################
+------------------------ ### evenSumRange.c ### -------------------------------
+                         #######################
+
+This program populates a binary search tree with a given file of integer data.
+It then finds if the numbers within given ranges (provided in another file) are
+even or not.
+
+*******************************************************************************
+
+# How to compile 'evenSumRange.c':
+There is a Makefile included in the submitted file.  Enter the command 'make' in
+while in the same directory of the source code file.  An executable named
+'evenSumRange' while be created in the current directory.
+
+# How to run 'evenSumRange' executable:
+
+Run './evenSumRange <data-file> <range-file>' in the terminal after compiling.
+
+<data-file>: The file containing the data to populate the BST.
+<range-file>: The file containing the ranges to query the BST with.
+
+*******************************************************************************
