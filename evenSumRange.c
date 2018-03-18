@@ -145,8 +145,6 @@ int main(int argc,char *argv[]) {
   long long inputData;    // Temporary variables for reading data and ranges
   long long minMax[2];
 
-  int i = 0;
-
   // Open data file and ranges files at locations given by user
   data = fopen(argv[1],"r");
   ranges = fopen(argv[2],"r");
@@ -160,12 +158,11 @@ int main(int argc,char *argv[]) {
   // if the range query results in an even or odd sum.
   while (fscanf(ranges,"%lli %lli",&minMax[0],&minMax[1]) != EOF) {
     if (btreeEvenSumRange(root, minMax[0], minMax[1]) == 1) {
-      printf("%d Range [%lli,%lli]: %s\n",i,  minMax[0], minMax[1], "odd sum");
+      printf("Range [%lli,%lli]: %s\n",minMax[0], minMax[1], "odd sum");
     }
     else {
-      printf("%d Range [%lli,%lli]: %s\n",i , minMax[0], minMax[1], "even sum");
+      printf("Range [%lli,%lli]: %s\n",minMax[0], minMax[1], "even sum");
     }
-    i += 1;
   }
 
   // Free all allocated memory for the tree and close opened files.
