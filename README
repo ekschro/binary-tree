@@ -14,6 +14,7 @@ even or not.
 *******************************************************************************
 
 # How to compile 'evenSumRange.c':
+
 There is a Makefile included in the submitted file.  Enter the command 'make' in
 while in the same directory of the source code file.  An executable named
 'evenSumRange' while be created in the current directory.
@@ -24,5 +25,14 @@ Run './evenSumRange <data-file> <range-file>' in the terminal after compiling.
 
 <data-file>: The file containing the data to populate the BST.
 <range-file>: The file containing the ranges to query the BST with.
+
+# How to check results:
+
+I used 'diff' to compare my results with the test results to check if there were
+any differences.  If you would like to do so yourself, send the printed results
+to a text file like this: './evenSumRange dataX rangeX > output.txt'.  Then
+upon completion of the program you can run 'diff evenSumX output.txt'.  If
+nothing is printed to the screen when running this it means your results match
+the 'evenSumX' file.
 
 *******************************************************************************
