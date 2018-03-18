@@ -1,0 +1,113 @@
+CSE 2331: Binary Tree Programming Assignment
+Dr. Diego Zaccai
+Ericsson Schroeter
+March 18, 2018
+
+a.)   There were no modifications made to the binary tree in order to support
+      computing.  The 'node_t' struct had a long long variable to store a value
+      and two 'node_t' pointers for a left and right child.
+
+b.)   There were no modifications made to the binary tree insertion algorithm,
+      it is pretty much identical to the one shown in class.  it simply creates
+      a new node with the given value, locates the appropriate parent for the
+      new node, and then assign the new node the appropriate position in the
+      tree.
+
+      function btreeInsert(T,n) {
+        z <- NIL;
+        y <- NIL;
+
+        z.value <- n;
+        y <- locateParent(T,z);
+
+        z.left_child <- NIL;
+        z.right_child <- NIL;
+
+        if (y == NIL) {
+          T.root = z;
+        }
+        else if (z.value < y.value) {
+          y.left_child <- z;
+        }
+        else {
+          y->right_child <- z;
+        }
+      }
+
+      function locateParent(T, z) {
+        y <- NIL;
+        x <- T.root;
+
+        while (x != NIL) {
+          y <- x;
+          if (z.value < x.value) {
+            x <- x.left_child;
+          }
+          else {
+            x <- x.right_child;
+          }
+        }
+        return y;
+      }
+
+c.)   All modifications to perform evenSumRange in Big-theta(h) were made in
+      'btreeEvenSumRange'.  This function is similar to the range report
+      function talked about in class which runs in Big-theta(h) time.  All
+      modifications made run at constant time and therefore do not affect the
+      original runtime.
+
+      'btreeEvenSumRange' takes in the root node pointer of a binary tree and the
+      minimum and maximum of a range as long long.  It returns a 1 if the sum of
+      the values within the range is odd, a 0 if it is even, and a -1 if there
+      are no values found within the given range at all.
+
+      It uses the 0 for even values, 1 for odd values, and then the XOR operator
+      to determine whether the sum of the values with in the range is even or odd
+      while the function recursively searches the tree.
+
+      function btreeEvenSumRange(T.root, min, max) {
+        i <- -1;
+        left <- -1;
+        right <- -1;
+
+        if (T.root != NIL) {
+          if (min <= r.value) {
+            left <- btreeEvenSumRange(r.left_child, min, max);
+          }
+
+          if (r->value <= max) {
+            right <- btreeEvenSumRange(r.right_child, min, max);
+          }
+
+          if (left > -1 && right > -1) {
+            i <- right^left;
+          }
+          else if (left > -1){
+            i <- left;
+          }
+          else if (right > -1) {
+            i <- right;
+          }
+
+          if (min <= r.value && r.value <= max) {
+              if ((r.value % 2) == 0) {
+                if (i != -1) {
+                  i <- i^0;
+                }
+                else {
+                  i <- 0;
+                }
+              }
+              else {
+                if (i != -1) {
+                  i <- i^1;
+                }
+                else {
+                  i <- 1;
+                }
+              }
+          }
+        }
+
+        return i;
+      }
