@@ -13,15 +13,19 @@ even or not.
 
 *******************************************************************************
 
-# How to compile 'evenSumRange.c':
+# How to compile 'evenSumRange.c' and 'balancedEvenSumRange.c':
 
 There is a Makefile included in the submitted file.  Enter the command 'make' in
-while in the same directory of the source code file.  An executable named
-'evenSumRange' while be created in the current directory.
+while in the same directory of the source code file.  Two executables named
+'evenSumRange' and 'balancedEvenSumRange' will be created in the current directory.
 
 # How to run 'evenSumRange' executable:
 
 Run './evenSumRange <data-file> <range-file>' in the terminal after compiling.
+
+For the balanced tree:
+Run './balancedEvenSumRange <data-file> <range-file>' in the terminal after
+compiling.
 
 <data-file>: The file containing the data to populate the BST.
 <range-file>: The file containing the ranges to query the BST with.
