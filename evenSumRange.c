@@ -1,5 +1,5 @@
 //
-//  BinaryTree.c
+//  evenSumRange.c
 //  Binary Tree Assignment
 //
 //  Created by Ericsson Schroeter on 3/11/18.
