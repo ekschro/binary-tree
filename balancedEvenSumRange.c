@@ -3,7 +3,7 @@
 //  Binary Tree Assignment
 //
 //  Created by Ericsson Schroeter on 3/11/18.
-//  Copyright © 3/11/18 Ericsson Schroeter. All rights reserved.
+//  Copyright © 3/19/18 Ericsson Schroeter. All rights reserved.
 //
 
 #include <stdio.h>
