@@ -48,11 +48,19 @@ node_t *locateParent(node_t **t, node_t *z) {
   return y;
 }
 
+//leaf
+node_t *leaf(node_t *z) {
+  node_t *y = malloc(sizeof(node_t));
+  *y = (node_t) {.value = 0, .color = BLACK, .parent = z, .left_child = 0, .right_child = 0};
+
+  return y;
+}
+
 //sibling
 node_t *sibling(node_t *x) {
   node_t *p = x->parent;
 
-  if (x->parent == 0) {
+  if (p == 0) {
     return 0;
   }
   if (p->left_child == x) {
@@ -61,8 +69,6 @@ node_t *sibling(node_t *x) {
   else {
     return p->left_child;
   }
-
-  return 0;
 }
 
 void transplant(node_t **t, node_t *u, node_t *v) {
@@ -83,10 +89,10 @@ void transplant(node_t **t, node_t *u, node_t *v) {
   }
 }
 
-void rotateLeft() {
+void rotateLeft(node_t **t,node_t *x) {
   node_t *y = x->right_child;
   node_t *b = y->left_child;
-  transplant(**t,x,y);
+  transplant(t,x,y);
   x->right_child = b;
 
   if (b != 0) {
@@ -100,7 +106,7 @@ void rotateLeft() {
 void rotateRight(node_t **t, node_t *x) {
   node_t *y = x->left_child;
   node_t *b = y->right_child;
-  transplant(**t,x,y);
+  transplant(t,x,y);
   x->left_child = b;
 
   if (b != 0) {
@@ -128,7 +134,6 @@ void rbInsertFixupA(node_t **t, node_t *z) {
 
 void rbInsertFixupC(node_t **t, node_t *z) {
   node_t *x,*w;
-
   if (z == *t || (z->parent)->color == BLACK) {
     return;
   }
@@ -150,7 +155,6 @@ void rbInsertFixupC(node_t **t, node_t *z) {
 
 void rbInsertFixupB(node_t **t, node_t *z) {
   node_t *x,*w;
-
   if (z == *t || (z->parent)->color == BLACK) {
     return;
   }
@@ -190,8 +194,8 @@ void btreeInsert(node_t **t, long long n) {
   // Initialize z left and right children to NULL
   z->parent = y;
   z->color = RED;
-  z->left_child = 0;
-  z->right_child = 0;
+  z->left_child = leaf(z);
+  z->right_child = leaf(z);
 
   // If y is NULL then set new node z as root of the tree.  Otherwise, set z
   // as the left child of y if z's value is less than y's or as the right child
