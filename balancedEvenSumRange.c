@@ -65,6 +65,52 @@ node_t *sibling(node_t *x) {
   return 0;
 }
 
+void transplant(node_t **t, node_t *u, node_t *v) {
+  node_t *p =u->parent;
+
+  if (p == 0) {
+    *t = v;
+  }
+  else if (u == p->left_child) {
+    p->left_child = v;
+  }
+  else {
+    p->right_child = v;
+  }
+
+  if (v != 0) {
+    v->parent = p;
+  }
+}
+
+void rotateLeft() {
+  node_t *y = x->right_child;
+  node_t *b = y->left_child;
+  transplant(**t,x,y);
+  x->right_child = b;
+
+  if (b != 0) {
+    b->parent = x;
+  }
+
+  y->left_child = x;
+  x->parent = y;
+}
+
+void rotateRight(node_t **t, node_t *x) {
+  node_t *y = x->left_child;
+  node_t *b = y->right_child;
+  transplant(**t,x,y);
+  x->left_child = b;
+
+  if (b != 0) {
+    b->parent = x;
+  }
+
+  y->right_child = x;
+  x->parent = y;
+}
+
 //rbInsertFixup(T,z)
 void rbInsertFixupA(node_t **t, node_t *z) {
   node_t *y;
@@ -81,7 +127,7 @@ void rbInsertFixupA(node_t **t, node_t *z) {
 }
 
 void rbInsertFixupC(node_t **t, node_t *z) {
-  node_t x,w;
+  node_t *x,*w;
 
   if (z == *t || (z->parent)->color == BLACK) {
     return;
@@ -91,13 +137,43 @@ void rbInsertFixupC(node_t **t, node_t *z) {
   w = x->parent;
 
   if (z == x->left_child && x == w->left_child) {
-    rotateRight();
+    rotateRight(t,w);
     x->color = BLACK;
     w->color = RED;
   }
   else if (z == x->right_child && x == w->right_child) {
-
+    rotateLeft(t,w);
+    x->color = BLACK;
+    w->color = RED;
   }
+}
+
+void rbInsertFixupB(node_t **t, node_t *z) {
+  node_t *x,*w;
+
+  if (z == *t || (z->parent)->color == BLACK) {
+    return;
+  }
+
+  x = z->parent;
+  w = x->parent;
+
+  if (z == x->right_child && x == w->left_child) {
+    z = x;
+    rotateLeft(t,x);
+  }
+  else if (z == x->left_child && x == w->right_child) {
+    z = x;
+    rotateRight(t,x);
+  }
+  rbInsertFixupB(t,z);
+}
+
+void rbInsertFixup(node_t **t,node_t *z) {
+  rbInsertFixupA(t,z);
+  rbInsertFixupB(t,z);
+  rbInsertFixupC(t,z);
+  (*t)->color = BLACK;
 }
 
 // Inserts a new node into binary tree.
@@ -129,6 +205,8 @@ void btreeInsert(node_t **t, long long n) {
   else {
     y->right_child = z;
   }
+
+  rbInsertFixup(t,z);
 }
 
 // btreeEvenSumRange takes in the root node pointer of a binary tree and the
