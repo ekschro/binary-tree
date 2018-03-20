@@ -19,11 +19,16 @@ There is a Makefile included in the submitted file.  Enter the command 'make' in
 while in the same directory of the source code file.  Two executables named
 'evenSumRange' and 'balancedEvenSumRange' will be created in the current directory.
 
+If you would only like to compile one of the two files you can enter the command
+'make unbalanced' to compile 'evenSumRange.c' or 'make balanced' to compile
+'balancedEvenSumRange.c'.
+
 # How to run 'evenSumRange' executable:
 
 Run './evenSumRange <data-file> <range-file>' in the terminal after compiling.
 
-For the balanced tree:
+For the 'balancedEvenSumRange':
+
 Run './balancedEvenSumRange <data-file> <range-file>' in the terminal after
 compiling.
 
