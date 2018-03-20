@@ -10,7 +10,7 @@
 #include <stdlib.h>
 
 typedef struct node_t {
-  long long value;
+  long value;
   struct node_t *left_child;
   struct node_t *right_child;
 } node_t;
@@ -45,7 +45,7 @@ node_t *locateParent(node_t **t, node_t *z) {
 }
 
 // Inserts a new node into binary tree.
-void btreeInsert(node_t **t, long long n) {
+void btreeInsert(node_t **t, long n) {
   // Allocate memory for new node being inserted and initialize pointer for
   // the appropriate parent.
   node_t *z = malloc(sizeof(node_t));
@@ -74,10 +74,10 @@ void btreeInsert(node_t **t, long long n) {
 }
 
 // btreeEvenSumRange takes in the root node pointer of a binary tree and the
-// minimum and maximum of a range as long long.  It returns a 1 if the sum of
+// minimum and maximum of a range as long.  It returns a 1 if the sum of
 // the values within the range is odd, a 0 if it is even, and a -1 if there are
 // no values found within the given range.
-int btreeEvenSumRange(node_t *r, long long min, long long max) {
+int btreeEvenSumRange(node_t *r, long min, long max) {
   // Initialize i, left, and right variables to -1
   int i = -1;
   int left = -1;
@@ -142,26 +142,26 @@ int main(int argc,char *argv[]) {
   FILE *data;             // Initialize FILE pointers for data and ranges
   FILE *ranges;
 
-  long long inputData;    // Temporary variables for reading data and ranges
-  long long minMax[2];
+  long inputData;    // Temporary variables for reading data and ranges
+  long minMax[2];
 
   // Open data file and ranges files at locations given by user
   data = fopen(argv[1],"r");
   ranges = fopen(argv[2],"r");
 
   // Read and insert data values into Binary tree
-  while (fscanf(data,"%lli",&inputData) != EOF) {
+  while (fscanf(data,"%ld",&inputData) != EOF) {
     btreeInsert(tree,inputData);
   }
 
   // Read ranges, query binary tree with range values, and then output
   // if the range query results in an even or odd sum.
-  while (fscanf(ranges,"%lli %lli",&minMax[0],&minMax[1]) != EOF) {
+  while (fscanf(ranges,"%ld %ld",&minMax[0],&minMax[1]) != EOF) {
     if (btreeEvenSumRange(root, minMax[0], minMax[1]) == 1) {
-      printf("Range [%lli,%lli]: %s\n",minMax[0], minMax[1], "odd sum");
+      printf("Range [%ld,%ld]: %s\n",minMax[0], minMax[1], "odd sum");
     }
     else {
-      printf("Range [%lli,%lli]: %s\n",minMax[0], minMax[1], "even sum");
+      printf("Range [%ld,%ld]: %s\n",minMax[0], minMax[1], "even sum");
     }
   }
 
