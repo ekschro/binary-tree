@@ -1,10 +1,6 @@
-Binary Tree
+# Binary Tree
 Ericsson Schroeter
 March 17, 2018
-
-                         #######################
------------------------- ### evenSumRange.c ### -------------------------------
-                         #######################
 
 This program populates a binary search tree with a given file of integer data.
 It then finds if the numbers within given ranges (provided in another file) are
@@ -12,7 +8,7 @@ even or not.
 
 *******************************************************************************
 
-# How to compile 'evenSumRange.c' and 'balancedEvenSumRange.c':
+## How to compile 'evenSumRange.c' and 'balancedEvenSumRange.c':
 
 There is a Makefile included in the submitted file.  Enter the command 'make' in
 while in the same directory of the source code file.  Two executables named
@@ -22,7 +18,7 @@ If you would only like to compile one of the two files you can enter the command
 'make unbalanced' to compile 'evenSumRange.c' or 'make balanced' to compile
 'balancedEvenSumRange.c'.
 
-# How to run 'evenSumRange' executable:
+## How to run 'evenSumRange' executable:
 
 Run './evenSumRange <data-file> <range-file>' in the terminal after compiling.
 
@@ -34,7 +30,7 @@ compiling.
 <data-file>: The file containing the data to populate the BST.
 <range-file>: The file containing the ranges to query the BST with.
 
-# How to check results:
+## How to check results:
 
 I used 'diff' to compare my results with the test results to check if there were
 any differences.  If you would like to do so yourself, send the printed results
